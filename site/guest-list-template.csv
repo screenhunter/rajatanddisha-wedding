@@ -1,0 +1,9 @@
+household_id,household_name,first_name,last_name,email,phone,tags,max_additional_guests,additional_guest_tags,invite_code
+sharma-family,The Sharma Family,Anil,Sharma,anil@example.com,+91 98765 43210,bride's side; india travel,0,,
+sharma-family,The Sharma Family,Sunita,Sharma,,,bride's side; india travel,,,
+sharma-family,The Sharma Family,Rohan,Sharma,,,bride's side; india travel,,,
+patel-family,The Patel Family,Vikram,Patel,vikram@example.com,,groom's side; wedding only; india travel,0,,PATELFAM
+patel-family,The Patel Family,Meera,Patel,,,groom's side; wedding only; india travel,,,
+jones-smith,Jessica & Mark,Jessica,Jones,jess@example.com,+1 703 555 0100,bride's side; reception only; us,2,,
+jones-smith,Jessica & Mark,Mark,Smith,,,bride's side; reception only; us,,,
+chen-david,,David,Chen,david@example.com,,groom's side; india travel; us,1,,

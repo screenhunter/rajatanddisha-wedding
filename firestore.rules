@@ -1,0 +1,69 @@
+rules_version = '2';
+
+// Deployed automatically by `npm run publish`. (Or paste it into Firebase console → Firestore → Rules.)
+//
+// Families never sign in. Each family's invite code is the ID of the one
+// document they can read (invites/{code}) and the one they can write
+// (responses/{code}). Nobody but an admin can list collections, so codes
+// can't be discovered, and each invite only contains what that family may see.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+
+    // Sign-in page info (couple names, tagline)
+    match /public/{doc} {
+      allow get: if true;
+      allow write: if isAdmin();
+    }
+
+    // What one family can see. Readable only by someone who knows the code.
+    match /invites/{code} {
+      allow get: if true;
+      allow list, write: if isAdmin();
+    }
+
+    // Name lookup: document IDs are SHA-256 hashes of "first|last"
+    match /nameIndex/{hash} {
+      allow get: if true;
+      allow list, write: if isAdmin();
+    }
+
+    // A family's RSVP
+    match /responses/{code} {
+      allow get: if true;
+      allow list, delete: if isAdmin();
+      allow create, update: if isAdmin() || validGuestResponse(code);
+    }
+
+    function validGuestResponse(code) {
+      let invitePath = /databases/$(database)/documents/invites/$(code);
+      let d = request.resource.data;
+      return exists(invitePath)
+        && request.time < get(invitePath).data.rsvpClosesAt
+        && d.keys().hasOnly(['extras', 'rsvps', 'dietary', 'message', 'respondedAt'])
+        && d.extras is list && d.extras.size() <= get(invitePath).data.extrasLimit
+        && d.rsvps is map && d.rsvps.keys().hasOnly(get(invitePath).data.eventIds)
+        && d.dietary is map && d.dietary.size() <= 50
+        && d.message is string && d.message.size() <= 2000
+        && d.respondedAt == request.time;
+    }
+
+    // Admin only
+    match /households/{id} {
+      allow read, write: if isAdmin();
+    }
+    match /private/{doc} {
+      allow read, write: if isAdmin();
+    }
+    // Managed by `npm run publish` from adminEmails in private/site.js
+    match /admins/{email} {
+      allow get: if request.auth != null && request.auth.token.email == email;
+    }
+  }
+}

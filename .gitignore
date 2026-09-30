@@ -1,0 +1,5 @@
+node_modules/
+# Event details, page text, admin emails and the service-account key.
+# Never commit this folder: the GitHub repo is public.
+private/
+.DS_Store

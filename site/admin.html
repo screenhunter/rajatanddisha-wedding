@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wedding Admin</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .tabs { display: flex; gap: 8px; overflow-x: auto; padding: 16px 0; }
+    .tabs button { flex: none; min-height: 40px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: inherit; cursor: pointer; }
+    .tabs button.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .stat-grid { display: grid; gap: 16px; }
+    @media (min-width: 720px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+    .counts { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+    details summary { cursor: pointer; color: var(--primary); margin-top: 8px; }
+    details ul { margin: 6px 0; padding-left: 1.2em; font-size: 0.92rem; }
+    .household { margin-top: 14px; }
+    .household-head { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: baseline; }
+    .guest-line { padding: 10px 0; border-top: 1px solid var(--line); font-size: 0.93rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .chip { font-size: 0.75rem; padding: 2px 8px; border-radius: 999px; }
+    .chip.yes { background: var(--yes-soft); color: var(--yes); }
+    .chip.no { background: var(--no-soft); color: var(--no); }
+    .chip.pending { background: #eee; color: #555; }
+    code { background: var(--accent-soft); padding: 1px 6px; border-radius: 4px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .radio { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; margin-top: 10px; }
+    .radio input { margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <span class="brand">Wedding Admin</span>
+      <div class="actions">
+        <a class="btn secondary small" href="./">View site</a>
+        <button class="btn secondary small" id="logout" hidden>Log out</button>
+      </div>
+    </div>
+  </header>
+  <main class="container" id="admin"><div class="loading">Loading…</div></main>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
